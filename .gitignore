@@ -1,0 +1,9 @@
+.idea/
+**/configs/
+**/bin
+**/cache
+**/out
+**/broadcast
+
+*.db
+*.env
