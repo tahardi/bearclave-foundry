@@ -50,11 +50,15 @@ tidy:
 	@go mod tidy
 
 .PHONY: go-test
-go-test: go-test-foundry
+go-test: go-test-internal go-test-foundry
+
+.PHONY: go-test-internal
+go-test-internal:
+	@go test -v -count=1 -race ./internal/...
 
 .PHONY: go-test-foundry
 go-test-foundry:
-	@go test -v -count=1 -race ./test/foundry/...
+	@go test -v -count=1 -race ./foundry/...
 
 ################################################################################
 # Solidity Targets
@@ -96,7 +100,7 @@ abigen_modfile=modfiles/abigen/go.mod
 .PHONY: bindings
 bindings: sol-build
 	@jq '.abi' $(out_dir)/KitchenSink.sol/KitchenSink.json | \
-	@go tool -modfile=$(abigen_modfile) abigen \
+	go tool -modfile=$(abigen_modfile) abigen \
 		--abi /dev/stdin \
 		--pkg $(bindings_pkg) \
 		--type KitchenSink \
@@ -104,7 +108,7 @@ bindings: sol-build
 
 .PHONY: test-integration
 test-integration: sol-build tidy
-	@go test -v -count=1 $(integration_dir)/kitchen-sink/...
+	@go test -v -count=1 $(integration_dir)/...
 
 .PHONY: clean
 clean:
