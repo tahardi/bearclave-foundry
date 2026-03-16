@@ -17,6 +17,7 @@ const (
 	SendCommand    = "send"
 
 	ValueFlag = "--value"
+	Base10    = 10
 )
 
 var (
@@ -88,7 +89,7 @@ func (c *Cast) Balance(ctx context.Context, account *Account) (*big.Int, error) 
 
 	balanceStr := strings.TrimSpace(string(out))
 	balance := new(big.Int)
-	if _, ok := balance.SetString(balanceStr, 10); !ok {
+	if _, ok := balance.SetString(balanceStr, Base10); !ok {
 		return nil, castError("parsing balance", nil)
 	}
 	return balance, nil
@@ -127,8 +128,5 @@ func (c *Cast) SendEther(
 		msg := "sending ether: " + string(out)
 		return castError(msg, err)
 	}
-
-	// TODO: How to get receipt
-	//fmt.Printf("sent: %s\n", string(out))
 	return nil
 }
