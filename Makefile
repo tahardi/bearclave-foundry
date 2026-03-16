@@ -111,8 +111,16 @@ test-integration: sol-build tidy
 	@go test -v -count=1 $(integration_dir)/...
 
 .PHONY: clean
-clean:
-	forge clean
+clean: clean-broadcast clean-cache clean-forge
+
+.PHONY: clean-broadcast
+clean-broadcast:
 	rm -rf $(broadcast_dir)
+
+.PHONY: clean-cache
+clean-cache:
 	rm -rf $(cache_dir)
-	rm -rf $(out_dir)
+
+.PHONY: clean-forge
+clean-forge:
+	forge clean

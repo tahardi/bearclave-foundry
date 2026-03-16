@@ -15,6 +15,7 @@ var (
 
 type Foundry struct {
 	anvil *Anvil
+	cast  *Cast
 	forge *Forge
 }
 
@@ -34,6 +35,11 @@ func NewFoundry(
 		return nil, foundryError("starting anvil", err)
 	}
 
+	cast, err := NewCast(ctx, anvil.URL(), anvil.ChainID())
+	if err != nil {
+		return nil, foundryError("creating cast", err)
+	}
+
 	forge, err := NewForge(ctx, broadcastDir, scriptDir, anvil.URL(), anvil.ChainID())
 	if err != nil {
 		return nil, foundryError("creating forge", err)
@@ -41,6 +47,7 @@ func NewFoundry(
 
 	return &Foundry{
 		anvil: anvil,
+		cast:  cast,
 		forge: forge,
 	}, nil
 }
@@ -51,6 +58,10 @@ func (f *Foundry) Stop() {
 
 func (f *Foundry) Anvil() *Anvil {
 	return f.anvil
+}
+
+func (f *Foundry) Cast() *Cast {
+	return f.cast
 }
 
 func (f *Foundry) Forge() *Forge {

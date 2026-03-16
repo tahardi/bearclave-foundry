@@ -111,8 +111,7 @@ func (f *Forge) DeployContract(
 	scriptName := fmt.Sprintf(ScriptName, contractName)
 	scriptPath := fmt.Sprintf(ScriptPath, f.scriptDir, scriptName, contractName)
 	args := []string{
-		ScriptCommand,
-		scriptPath,
+		ScriptCommand, scriptPath,
 		RPCFlag, f.url,
 		PrivateKeyFlag, owner.PrivateKeyHex(),
 		BroadcastFlag,

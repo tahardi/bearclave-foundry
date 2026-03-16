@@ -19,6 +19,10 @@ func anvilError(msg string, err error) error {
 	return wrapError(ErrAnvil, msg, err)
 }
 
+func castError(msg string, err error) error {
+	return wrapError(ErrCast, msg, err)
+}
+
 func forgeError(msg string, err error) error {
 	return wrapError(ErrForge, msg, err)
 }
