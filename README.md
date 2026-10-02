@@ -15,18 +15,53 @@ This repository contains a Golang test harness for the Foundry CLI. It allows
 you to start and stop a local Ethereum evm, deploy smart contracts, and read
 contract events from within your Go tests.
 
-## Getting Started
+## Installation
 
-1. Install [Golang](https://golang.org/doc/install) (v1.25.5 or higher) to build
-   and run the integration tests.
-2. Install the [Foundry](https://github.com/foundry-rs/foundry) toolset for
-   smart contract development.
-3. Initialize the submodules.
+Requires [Golang](https://golang.org/doc/install) v1.25.0 or higher.
+
 ```bash
-git submodule update --init --recursive 
+go get github.com/tahardi/bearclave-foundry@v0.1.0
 ```
-4. Install [Slither](https://github.com/crytic/slither) static analysis tool for
-   auditing smart contracts.
 
-The code in `contracts/` and `test/integration/` demonstrates how to use the
-test harness to run integration tests against a local Foundry node.
+Install the [Foundry](https://github.com/foundry-rs/foundry) toolset. The
+harness is tested with foundry `1.5.1-stable` and warns if it finds another
+version.
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash && foundryup
+```
+
+## Usage
+
+```go
+f, err := foundry.NewFoundry(t.Context(), true, BroadcastDir, ScriptDir)
+require.NoError(t, err)
+defer f.Stop()
+
+owner := f.Anvil().Account(0)
+contract, err := foundry.DeployContract(t.Context(), f, owner, "KitchenSink", bindings.NewKitchenSink)
+require.NoError(t, err)
+
+call := func(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return contract.Burn(opts, big.NewInt(100))
+}
+receipt, err := foundry.CallContract(t.Context(), f, call, owner)
+require.NoError(t, err)
+
+event, err := foundry.GetEvent[*bindings.KitchenSinkBurn](receipt, contract.ParseBurn)
+require.NoError(t, err)
+```
+
+`NewFoundry` starts a local anvil node. `DeployContract` runs a Forge script
+that you provide, so it relies on a naming convention. For a contract named
+`<Name>`, create `<scriptDir>/<Name>.s.sol` containing a contract named
+`<Name>Script` that deploys the contract and broadcasts the deployment.
+
+The code in `contracts/` and `test/integration/` shows a complete example.
+
+## Development
+
+1. Install [Foundry](https://github.com/foundry-rs/foundry).
+2. Install [Slither](https://github.com/crytic/slither): `pipx install slither-analyzer`
+3. Initialize the submodules: `git submodule update --init --recursive`
+4. Run all checks: `make pre-pr`
