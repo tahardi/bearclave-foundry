@@ -24,7 +24,7 @@ go get github.com/tahardi/bearclave-foundry@v0.1.0
 ```
 
 Install the [Foundry](https://github.com/foundry-rs/foundry) toolset. The
-harness is tested with foundry `1.5.1-stable` and warns if it finds another
+harness is tested with foundry `1.8.4` and warns if it finds another
 version.
 
 ```bash

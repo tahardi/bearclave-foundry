@@ -18,7 +18,7 @@ import (
 
 const (
 	ForgeCommand  = "forge"
-	ForgeVersion  = "1.5.1-stable"
+	ForgeVersion  = "1.8.4"
 	ScriptCommand = "script"
 
 	BroadcastFlag  = "--broadcast"

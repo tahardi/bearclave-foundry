@@ -12,7 +12,7 @@ import (
 
 const (
 	CastCommand    = "cast"
-	CastVersion    = "1.5.1-stable"
+	CastVersion    = "1.8.4"
 	BalanceCommand = "balance"
 	SendCommand    = "send"
 
