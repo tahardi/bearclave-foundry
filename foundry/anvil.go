@@ -17,7 +17,7 @@ import (
 
 const (
 	AnvilCommand = "anvil"
-	AnvilVersion = "1.5.1-stable"
+	AnvilVersion = "1.8.4"
 
 	BaseFee          = 1_000_000_000
 	ChainID          = 31337

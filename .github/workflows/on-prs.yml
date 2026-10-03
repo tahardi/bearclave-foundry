@@ -54,7 +54,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: v1.5.1
+          version: v1.8.4
 
       - name: Show Forge Version
         run: forge --version
@@ -73,7 +73,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: v1.5.1
+          version: v1.8.4
 
       - name: Show Forge version
         run: forge --version
@@ -90,7 +90,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: v1.5.1
+          version: v1.8.4
 
       - name: Install Go
         uses: actions/setup-go@v5
